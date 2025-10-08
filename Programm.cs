@@ -49,10 +49,16 @@ public class JsonOrderProcessor
 
     public class CartData
     {
-        public List<CartItem> CartItems { get; set; }
+        public string FullName { get; set; }
+        public string Phone { get; set; }
+        public string Email { get; set; }
+        public string Company { get; set; }
+        public string DeliveryAddress { get; set; }
+        public decimal SubtotalAmount { get; set; }
+        public decimal DiscountAmount { get; set; }
         public decimal TotalAmount { get; set; }
-        public int ItemCount { get; set; }
-        public string ExportDate { get; set; }
+        public string CustomerNotes { get; set; }
+        public string PaymentMethod { get; set; }
     }
 
     public class CartItem
@@ -282,3 +288,4 @@ public class JsonOrderProcessor
     }
 
 }
+
