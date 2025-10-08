@@ -1104,9 +1104,7 @@ class TMKApp {
             
             let errorMessage = '❌ Ошибка при оформлении заказа';
             
-            if (error.message.includes('Failed to fetch')) {
-                errorMessage = '❌ Не удалось соединиться с сервером. Проверьте подключение к интернету.';
-            } else if (error.message.includes('NetworkError')) {
+            if (error.message.includes('NetworkError')) {
                 errorMessage = '❌ Проблемы с сетью. Проверьте подключение к интернету.';
             } else if (error.message.includes('429')) {
                 errorMessage = '❌ Слишком много запросов. Пожалуйста, подождите немного.';
@@ -1517,4 +1515,5 @@ document.addEventListener('DOMContentLoaded', () => {
     app = new TMKApp();
     window.app = app;
 });
+
 
