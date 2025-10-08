@@ -14,7 +14,7 @@
             <div class="header-content">
                 <div class="logo">
                     <img src="logo.png" alt="ТМК" class="logo-image">
-                    <h1>Трубная Металлургическая Компания</h1>
+                    <h1>ТМК</h1>
                 </div>
                 <div class="header-actions">
                     <button class="theme-toggle" id="themeToggle">
@@ -258,12 +258,20 @@
                         <div class="form-group">
                             <label>🏢 Компания</label>
                             <input type="text" id="customerCompany" 
-                                   placeholder="Название вашей компании">
+                                placeholder="Название вашей компании">
+                        </div>
+                        <div class="form-group">
+                            <label>📊 ИНН</label>
+                            <input type="text" id="customerINN" 
+                                placeholder="10 или 12 цифр"
+                                pattern="\d{10}|\d{12}"
+                                maxlength="12"
+                                oninput="app.validateField(this)">
                         </div>
                         <div class="form-group">
                             <label>📍 Адрес доставки</label>
                             <textarea id="deliveryAddress" 
-                                      placeholder="Город, улица, дом, квартира"></textarea>
+                                    placeholder="Город, улица, дом, квартира"></textarea>
                         </div>
                         <div class="form-group">
                             <label>💬 Комментарий к заказу</label>
