@@ -1298,16 +1298,6 @@ class TMKApp {
     }
 
     bindEvents() {
-        // Проверяем соединение с сервером при загрузке
-        setTimeout(() => {
-            this.checkServerConnection().then(isConnected => {
-                if (!isConnected) {
-                    console.warn('⚠️ Backend server is not available. Orders will not be saved.');
-                    this.showNotification('⚠️ Сервер временно недоступен. Заказы будут сохранены локально.', 'warning');
-                }
-            });
-        }, 2000);
-
         // Filter events
         const filterIds = [
             'stockFilter', 'typeFilter', 'diameterFilter', 
@@ -1527,3 +1517,4 @@ document.addEventListener('DOMContentLoaded', () => {
     app = new TMKApp();
     window.app = app;
 });
+
