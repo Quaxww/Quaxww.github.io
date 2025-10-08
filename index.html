@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ТМК - Трубная Металлургическая Компания</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <img src="logo.png" alt="ТМК" class="logo-image">
+                    <h1>Трубная Металлургическая Компания</h1>
+                </div>
+                <div class="header-actions">
+                    <button class="theme-toggle" id="themeToggle">
+                        <span class="theme-icon">🌙</span>
+                    </button>
+                    <button class="cart-btn" id="cartBtn">
+                        <span class="cart-icon">🛒</span>
+                        <span class="cart-count" id="cartCount">0</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main">
+            <!-- Search Section -->
+            <section class="search-section">
+                <div class="search-container">
+                    <input type="text" id="searchInput" placeholder="Поиск по названию, ГОСТу или марке стали..." class="search-input">
+                    <div class="search-icon">🔍</div>
+                </div>
+            </section>
+
+            <!-- Filters & Sorting -->
+            <section class="filters-section">
+                <div class="section-card">
+                    <div class="filters-header">
+                        <h3>🔧 Фильтры и сортировка</h3>
+                        <button class="clear-filters" id="clearFilters">🗑️ Очистить</button>
+                    </div>
+                    
+                    <!-- Sorting Controls -->
+                    <div class="sorting-controls">
+                        <div class="filter-group">
+                            <label>Сортировка:</label>
+                            <select id="sortBy" class="filter-select">
+                                <option value="name">По названию</option>
+                                <option value="price">По цене (возрастание)</option>
+                                <option value="price-desc">По цене (убывание)</option>
+                                <option value="diameter">По диаметру</option>
+                                <option value="thickness">По толщине стенки</option>
+                                <option value="stock">По наличию</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="filters-grid">
+                        <div class="filter-group">
+                            <label>🏭 Склад</label>
+                            <select id="stockFilter" class="filter-select">
+                                <option value="">Все склады</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>📦 Тип продукции</label>
+                            <select id="typeFilter" class="filter-select">
+                                <option value="">Все типы</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>📏 Диаметр (мм)</label>
+                            <input type="number" id="diameterFilter" class="filter-input" placeholder="мм" min="0">
+                        </div>
+                        <div class="filter-group">
+                            <label>🔧 Толщина стенки (мм)</label>
+                            <input type="number" id="thicknessFilter" class="filter-input" placeholder="мм" min="0">
+                        </div>
+                        <div class="filter-group">
+                            <label>📋 ГОСТ</label>
+                            <select id="gostFilter" class="filter-select">
+                                <option value="">Все ГОСТы</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>⚡ Марка стали</label>
+                            <select id="steelFilter" class="filter-select">
+                                <option value="">Все марки</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Products -->
+            <section class="products-section">
+                <div class="section-card">
+                    <div class="section-header">
+                        <h2>📦 Каталог продукции</h2>
+                        <div class="products-stats">
+                            <span class="stat" id="productsCount">0 товаров</span>
+                            <span class="stat" id="availableCount">0 в наличии</span>
+                        </div>
+                    </div>
+
+                    <div class="products-grid" id="productsGrid">
+                        <!-- Products will be loaded here -->
+                    </div>
+
+                    <div class="loading" id="loading">
+                        <div class="spinner"></div>
+                        <p>Загрузка каталога...</p>
+                    </div>
+
+                    <div class="empty-state" id="emptyState" style="display: none;">
+                        <div class="empty-icon">📦</div>
+                        <h3>Товары не найдены</h3>
+                        <p>Попробуйте изменить параметры фильтрации</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>ТМК</h4>
+                    <p>Трубная Металлургическая Компания</p>
+                    <p>Профессиональные решения с 2001 года</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Контакты</h4>
+                    <p>📞 +7 (800) 100-00-00</p>
+                    <p>📧 info@tmk.ru</p>
+                    <p>📍 Москва, ул. Металлургов, 15</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Режим работы</h4>
+                    <p>Пн-Пт: 9:00-18:00</p>
+                    <p>Сб-Вс: выходной</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 ТМК. Все права защищены.</p>
+            </div>
+        </footer>
+
+        <!-- Modals -->
+        <div class="modal" id="productModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="productModalTitle">Добавить в корзину</h3>
+                    <button class="close-modal" id="closeProductModal">×</button>
+                </div>
+                <div class="modal-body">
+                    <div class="product-details" id="productDetails"></div>
+                    <div class="quantity-section">
+                        <label>Количество:</label>
+                        <div class="quantity-tabs">
+                            <button class="tab-btn active" data-unit="meters">📏 Метры</button>
+                            <button class="tab-btn" data-unit="tons">⚖️ Тонны</button>
+                        </div>
+                        <div class="quantity-input">
+                            <input type="number" id="quantity" min="0.01" step="0.01" value="1" oninput="validateQuantity(this)">
+                            <span id="quantityUnit">м</span>
+                        </div>
+                        <div class="stock-info" id="stockInfo">
+                            Доступно: <span id="availableStock">0</span> <span id="stockUnit">м</span>
+                        </div>
+                        <div class="price-info">
+                            <div class="price-row">
+                                <span>Цена за ед.:</span>
+                                <span id="unitPrice">0 ₽</span>
+                            </div>
+                            <div class="price-row">
+                                <span>Скидка:</span>
+                                <span id="discountAmount">0%</span>
+                            </div>
+                            <div class="price-row total">
+                                <span>Итого:</span>
+                                <span id="totalPrice">0 ₽</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn secondary" id="cancelAdd">Отмена</button>
+                    <button class="btn primary" id="addToCart">Добавить в корзину</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal" id="cartModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>🛒 Корзина</h3>
+                    <button class="close-modal" id="closeCartModal">×</button>
+                </div>
+                <div class="modal-body">
+                    <div class="cart-items" id="cartItems">
+                        <!-- Cart items will appear here -->
+                    </div>
+                    <div class="cart-total">
+                        <div class="total-row">
+                            <span>Сумма:</span>
+                            <span id="subtotal">0 ₽</span>
+                        </div>
+                        <div class="total-row discount">
+                            <span>Скидка:</span>
+                            <span id="discount">0 ₽</span>
+                        </div>
+                        <div class="total-row final">
+                            <span>Итого:</span>
+                            <span id="finalTotal">0 ₽</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn secondary" id="continueShopping">Продолжить покупки</button>
+                    <button class="btn primary" id="checkout">Оформить заказ</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal" id="checkoutModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>🚀 Оформление заказа</h3>
+                    <button class="close-modal" id="closeCheckoutModal">×</button>
+                </div>
+                <div class="modal-body">
+                    <form class="checkout-form" id="checkoutForm">
+                        <div class="form-group">
+                            <label>👤 ФИО *</label>
+                            <input type="text" id="customerName" required 
+                                   placeholder="Иванов Иван Иванович"
+                                   oninput="app.validateField(this)">
+                        </div>
+                        <div class="form-group">
+                            <label>📞 Телефон *</label>
+                            <input type="tel" id="customerPhone" required 
+                                   placeholder="+7 (999) 999-99-99"
+                                   oninput="app.validateField(this)">
+                        </div>
+                        <div class="form-group">
+                            <label>📧 Email *</label>
+                            <input type="email" id="customerEmail" required 
+                                   placeholder="ivanov@example.ru"
+                                   oninput="app.validateField(this)">
+                        </div>
+                        <div class="form-group">
+                            <label>🏢 Компания</label>
+                            <input type="text" id="customerCompany" 
+                                   placeholder="Название вашей компании">
+                        </div>
+                        <div class="form-group">
+                            <label>📍 Адрес доставки</label>
+                            <textarea id="deliveryAddress" 
+                                      placeholder="Город, улица, дом, квартира"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>💬 Комментарий к заказу</label>
+                            <textarea id="orderComment" 
+                                      placeholder="Дополнительные пожелания или комментарии"></textarea>
+                        </div>
+                        
+                        <!-- Капча -->
+                        <div class="form-group">
+                            <label>🔒 Подтвердите, что вы не робот *</label>
+                            <div class="captcha-container">
+                                <div class="captcha-question" id="captchaQuestion">
+                                    <!-- Вопрос капчи будет сгенерирован автоматически -->
+                                </div>
+                                <input type="text" id="captchaAnswer" required 
+                                       placeholder="Введите ответ"
+                                       oninput="app.validateCaptcha(this)">
+                                <button type="button" class="btn secondary" id="refreshCaptcha" 
+                                        onclick="app.generateCaptcha()">🔄 Обновить</button>
+                            </div>
+                            <div class="captcha-hint" id="captchaHint"></div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn secondary" id="backToCart">Назад к корзине</button>
+                                        <!-- Кнопка для экспорта корзины в JSON -->
+                    <button class="btn secondary" onclick="exportCartToJSON()">📥 Экспорт корзины в JSON</button>
+
+                    <!-- Секция для импорта -->
+                    <div class="import-section" style="margin-top: 20px;">
+                        <h4>Импорт корзины из JSON</h4>
+                        <input type="file" id="jsonFileInput" accept=".json" style="display: none;">
+                        <button class="btn secondary" onclick="document.getElementById('jsonFileInput').click()">
+                            📤 Импорт корзины
+                        </button>
+                    </div>
+
+                    <script>
+                    // Функция экспорта корзины в JSON
+                    function exportCartToJSON() {
+                        const jsonData = cartManager.exportToJSON();
+                        const blob = new Blob([jsonData], { type: 'application/json' });
+                        const url = URL.createObjectURL(blob);
+                        
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = `tmk_cart_${new Date().toISOString().split('T')[0]}.json`;
+                        a.click();
+                        
+                        URL.revokeObjectURL(url);
+                        
+                        alert('Корзина экспортирована в JSON файл');
+                    }
+
+                    // Обработчик импорта JSON
+                    document.getElementById('jsonFileInput').addEventListener('change', function(e) {
+                        const file = e.target.files[0];
+                        if (file) {
+                            const reader = new FileReader();
+                            reader.onload = function(e) {
+                                try {
+                                    const success = cartManager.importFromJSON(e.target.result);
+                                    if (success) {
+                                        alert('Корзина успешно импортирована из JSON файла');
+                                        updateCartDisplay();
+                                    } else {
+                                        alert('Ошибка импорта корзины. Проверьте формат файла.');
+                                    }
+                                } catch (error) {
+                                    alert('Ошибка при чтении JSON файла: ' + error.message);
+                                }
+                            };
+                            reader.readAsText(file);
+                        }
+                    });
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
