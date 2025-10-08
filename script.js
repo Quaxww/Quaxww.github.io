@@ -939,6 +939,14 @@ class TMKApp {
 
     validateField(field) {
         const value = field.value.trim();
+        // В функцию validateField добавьте проверку для ИНН
+        if (field.id === 'customerINN') {
+            const inn = field.value.replace(/\D/g, '');
+            const isValid = inn.length === 10 || inn.length === 12;
+            field.classList.toggle('error', !isValid);
+            field.classList.toggle('success', isValid && inn.length > 0);
+            return isValid || inn.length === 0;
+        }
         
         if (field.id === 'customerName') {
             if (value.length < 2) {
@@ -1519,4 +1527,3 @@ document.addEventListener('DOMContentLoaded', () => {
     app = new TMKApp();
     window.app = app;
 });
-
