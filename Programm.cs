@@ -263,7 +263,7 @@ public class JsonOrderProcessor
                     }
                 },
                 TotalAmount = 9000.00m,
-                ItemCount = 1,
+                ItemCount = Cart,
                 ExportDate = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss")
             },
             Metadata = new Metadata
@@ -280,4 +280,5 @@ public class JsonOrderProcessor
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase
         });
     }
+
 }
